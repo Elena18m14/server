@@ -17,7 +17,7 @@ public class ServerHandler implements HttpHandler {
     public void handleRequest(HttpServerExchange exchange) {
         logger.info(exchange.getRequestURI() + "?" + exchange.getQueryString());
         boolean checkToken = validateRequest(exchange);
-        exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "audio/wav");
+        exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
         if (checkToken) {
             exchange.getResponseSender().send("Hello Word!");
         } else {
