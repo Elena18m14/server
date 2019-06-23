@@ -19,16 +19,22 @@ public class ServerHandler implements HttpHandler {
     public void handleRequest(HttpServerExchange exchange) {
         logger.info(exchange.getRequestURI() + "?" + exchange.getQueryString());
 
-        validateRequest(exchange);
+        boolean checkToken = validateRequest(exchange);
 
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
-        exchange.getResponseSender().send("Hello Word");
+        if (checkToken) {
+            exchange.getResponseSender().send("Hello Word!");
+        } else {
+            exchange.getResponseSender().send("Please enter a valid token.");
+        }
     }
 
-    private static void validateRequest(HttpServerExchange exchange) {
-        Map<String, Deque<String>> queryParametrs = exchange.getQueryParameters();
+    private static boolean validateRequest(HttpServerExchange exchange) {
+        //Map<String, Deque<String>> queryParametrs = exchange.getQueryParameters();
 
         String token = StringUtils.trimToNull(Util.getQueryParametrs(exchange, "token"));
+
         logger.info("token is " + token);
+        return token.equals("speach");
     }
 }
