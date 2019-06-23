@@ -9,15 +9,14 @@ public class Main {
     public static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        BasicConfigurator.configure(); // nedded for logger to work
-
+        BasicConfigurator.configure(); // needed for logger to work
         Undertow server = Undertow.builder()
                 .addHttpListener(4274, "0.0.0.0")
                 .setHandler(
                         Handlers.path()
-                            .addExactPath("/endpoint", new ServerHandler())
+                                .addExactPath("/endpoint", new ServerHandler())
                 )
-        .build();
+                .build();
         logger.info("Server start port 4274");
         server.start();
     }

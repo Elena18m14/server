@@ -11,8 +11,7 @@ public class Util {
         Deque<String> paramsForKey = queryParametrs.get(key);
         if (paramsForKey != null && paramsForKey.size() > 0) {
             return paramsForKey.getFirst();
-        }
-        else {
+        } else {
             return null;
         }
     }

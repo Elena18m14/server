@@ -9,8 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Deque;
-import java.util.Map;
 
 public class ServerHandler implements HttpHandler {
     public static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
@@ -18,9 +16,7 @@ public class ServerHandler implements HttpHandler {
     @Override
     public void handleRequest(HttpServerExchange exchange) {
         logger.info(exchange.getRequestURI() + "?" + exchange.getQueryString());
-
         boolean checkToken = validateRequest(exchange);
-
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
         if (checkToken) {
             exchange.getResponseSender().send("Hello Word!");
@@ -31,9 +27,7 @@ public class ServerHandler implements HttpHandler {
 
     private static boolean validateRequest(HttpServerExchange exchange) {
         //Map<String, Deque<String>> queryParametrs = exchange.getQueryParameters();
-
         String token = StringUtils.trimToNull(Util.getQueryParametrs(exchange, "token"));
-
         logger.info("token is " + token);
         return token.equals("speach");
     }
