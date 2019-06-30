@@ -1,36 +1,25 @@
 package Utils;
 
+import edu.cmu.sphinx.api.Configuration;
+import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import io.undertow.server.HttpServerExchange;
+import sphinx.Config;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Deque;
 import java.util.Map;
 
+import static sphinx.SpeechRecord.result;
+
 public class Util {
-    public static String getQueryParametrs(HttpServerExchange exchange, String key) {
+    public static String getQueryParametrs(HttpServerExchange exchange, String key) throws IOException {
         Map<String, Deque<String>> queryParametrs = exchange.getQueryParameters();
         Deque<String> paramsForKey = queryParametrs.get(key);
 
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        exchange.getRequestReceiver().receiveFullBytes((ex, data) -> {
-            try {
-                byteArrayOutputStream.write(data);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
-        ByteArrayInputStream inStream = new ByteArrayInputStream( byteArrayOutputStream.toByteArray() );
-        AudioFormat format = new AudioFormat(16*1000, 16, 1, true, false);
-        //AudioSystem.getAudioFileFormat(r);
-        AudioInputStream ais  = new AudioInputStream( inStream , format, byteArrayOutputStream.size());
         if (paramsForKey != null && paramsForKey.size() > 0) {
             return paramsForKey.getFirst();
         } else {
