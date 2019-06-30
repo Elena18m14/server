@@ -40,7 +40,6 @@ public class ServerHandler implements HttpHandler {
         return token.equals("speach");
     }
 
-
     private static String get(HttpServerExchange exchange) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         exchange.getRequestReceiver().receiveFullBytes((ex, data) -> {
