@@ -35,7 +35,7 @@ public class ServerHandler implements HttpHandler {
     }
 
     private static boolean validateRequest(HttpServerExchange exchange) throws IOException {
-        String token = StringUtils.trimToNull(Util.getQueryParametrs(exchange, "token"));
+        String token = StringUtils.trimToEmpty(Util.getQueryParametrs(exchange, "token"));
         logger.info("token is " + token);
         return token.equals("speach");
     }
