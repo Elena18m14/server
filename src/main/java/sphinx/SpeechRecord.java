@@ -49,15 +49,18 @@ public class SpeechRecord {
         String text = "";
         while ((result = recognizer.getResult()) != null) {
             System.out.format("Hypothesis: %s\n", result.getHypothesis());
-            text += result.getHypothesis();
+            //TODO
+            text += result.getNbest(2).iterator().next().replaceAll("<s> ","")
+                    .replaceAll("</s>", "");
             System.out.println("List of recognized words and their times:");
             for (WordResult r : result.getWords()) {
                 System.out.println(r);
             }
 
             System.out.println("Best 3 hypothesis:");
-            for (String s : result.getNbest(3))
+            for (String s : result.getNbest(3)) {
                 System.out.println(s);
+            }
         }
         System.out.println(text);
         return text;
