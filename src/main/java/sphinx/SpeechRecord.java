@@ -46,8 +46,13 @@ public class SpeechRecord {
 
     public static String result(StreamSpeechRecognizer recognizer) {
         SpeechResult result;
-        String text = "";
+        StringBuilder text = new StringBuilder();
         while ((result = recognizer.getResult()) != null) {
+            text.append(result.getHypothesis()).append(" ");
+            //System.out.format("Hypothesis: %s\n", result.getHypothesis());
+        }
+        recognizer.stopRecognition();
+       /* while ((result = recognizer.getResult()) != null) {
             System.out.format("Hypothesis: %s\n", result.getHypothesis());
             //TODO
             text += result.getNbest(2).iterator().next().replaceAll("<s> ","")
@@ -63,6 +68,8 @@ public class SpeechRecord {
             }
         }
         System.out.println(text);
-        return text;
+
+        */
+        return text.toString();
     }
 }

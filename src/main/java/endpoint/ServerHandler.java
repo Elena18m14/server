@@ -22,6 +22,12 @@ import static sphinx.SpeechRecord.result;
 public class ServerHandler implements HttpHandler {
     public static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
 
+    private StreamSpeechRecognizer recognizer;
+
+    public ServerHandler(StreamSpeechRecognizer recognizer) {
+        this.recognizer = recognizer;
+    }
+
     @Override
     public void handleRequest(HttpServerExchange exchange) throws IOException {
         logger.info(exchange.getRequestURI() + "?" + exchange.getQueryString());
@@ -34,13 +40,13 @@ public class ServerHandler implements HttpHandler {
         }
     }
 
-    private static boolean validateRequest(HttpServerExchange exchange) throws IOException {
+    private boolean validateRequest(HttpServerExchange exchange) throws IOException {
         String token = StringUtils.trimToEmpty(Util.getQueryParametrs(exchange, "token"));
         logger.info("token is " + token);
         return token.equals("speach");
     }
 
-    private static String get(HttpServerExchange exchange) throws IOException {
+    private  String get(HttpServerExchange exchange) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         exchange.getRequestReceiver().receiveFullBytes((ex, data) -> {
             try {
@@ -51,9 +57,6 @@ public class ServerHandler implements HttpHandler {
         });
 
         ByteArrayInputStream inStream = new ByteArrayInputStream( byteArrayOutputStream.toByteArray() );
-        Configuration configuration = Config.addCconfig();
-        StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(
-                configuration);
 
         recognizer.startRecognition(inStream);
         String text = result(recognizer);
