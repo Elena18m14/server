@@ -9,14 +9,13 @@ import edu.cmu.sphinx.result.WordResult;
 import java.io.InputStream;
 
 public class SpeechRecord {
-
+/*
     private static void simple(StreamSpeechRecognizer recognizer, String wave) throws Exception {
         InputStream stream = Audio.inputStreemFromPat(wave);
         recognizer.startRecognition(stream);
         String text = result(recognizer);
         recognizer.stopRecognition();
     }
-
 
     private static void hard(StreamSpeechRecognizer recognizer, String wave) throws Exception {
         InputStream stream = Audio.inputStreemFromPat(wave);
@@ -43,15 +42,15 @@ public class SpeechRecord {
         recognizer.setTransform(transform);
         return recognizer;
     }
-
-    public static String result(StreamSpeechRecognizer recognizer) {
+*/
+    public static String result(Speech recognizer) {
         SpeechResult result;
         StringBuilder text = new StringBuilder();
         while ((result = recognizer.getResult()) != null) {
             text.append(result.getHypothesis()).append(" ");
             //System.out.format("Hypothesis: %s\n", result.getHypothesis());
         }
-        recognizer.stopRecognition();
+        //recognizer.stopRecognition();
        /* while ((result = recognizer.getResult()) != null) {
             System.out.format("Hypothesis: %s\n", result.getHypothesis());
             //TODO
@@ -70,6 +69,7 @@ public class SpeechRecord {
         System.out.println(text);
 
         */
+       System.out.println(text.toString());
         return text.toString();
     }
 }

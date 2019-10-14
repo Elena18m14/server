@@ -7,6 +7,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sphinx.Config;
+import sphinx.Speech;
 
 import java.io.IOException;
 
@@ -17,8 +18,10 @@ public class Main {
         BasicConfigurator.configure(); // needed for logger to work
         Configuration configuration = Config.addCconfig();
 
-        StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(
+        Speech recognizer = new Speech(
                 configuration);
+        recognizer.start();
+       // recognizer.recognizer().
         Undertow server = Undertow.builder()
                 .addHttpListener(4274, "0.0.0.0")
                 .setHandler(
