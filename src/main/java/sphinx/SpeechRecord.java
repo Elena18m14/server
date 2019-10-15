@@ -1,5 +1,6 @@
 package sphinx;
 
+import Utils.Speech;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import edu.cmu.sphinx.decoder.adaptation.Stats;

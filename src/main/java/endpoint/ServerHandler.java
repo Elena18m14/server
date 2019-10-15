@@ -1,5 +1,6 @@
 package endpoint;
 
+import Utils.Speech;
 import Utils.Util;
 import edu.cmu.sphinx.api.*;
 import edu.cmu.sphinx.frontend.util.StreamDataSource;
@@ -13,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sphinx.Config;
-import sphinx.Speech;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

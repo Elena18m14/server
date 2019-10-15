@@ -1,3 +1,4 @@
+import Utils.Speech;
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import endpoint.ServerHandler;
@@ -7,7 +8,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sphinx.Config;
-import sphinx.Speech;
+import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 
 import java.io.IOException;
 
