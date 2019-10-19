@@ -44,7 +44,7 @@ public class SpeechRecord {
         return recognizer;
     }
 */
-    public static String result(Speech recognizer) {
+    public static String result(Speech recognizer) throws InterruptedException {
         SpeechResult result;
         StringBuilder text = new StringBuilder();
         while ((result = recognizer.getResult()) != null) {
@@ -71,6 +71,9 @@ public class SpeechRecord {
 
         */
        System.out.println(text.toString());
+       Thread.sleep(10000);
+       recognizer.recognizer().resetMonitors();
+
         return text.toString();
     }
 }
