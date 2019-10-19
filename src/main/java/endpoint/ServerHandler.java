@@ -35,7 +35,7 @@ public class ServerHandler implements HttpHandler {
 
 
     @Override
-    public void handleRequest(HttpServerExchange exchange) throws IOException {
+    public void handleRequest(HttpServerExchange exchange) throws IOException, InterruptedException {
         logger.info(exchange.getRequestURI() + "?" + exchange.getQueryString());
         boolean checkToken = validateRequest(exchange);
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
@@ -53,7 +53,7 @@ public class ServerHandler implements HttpHandler {
     }
 
 
-    private  String get(HttpServerExchange exchange) throws IOException {
+    private  String get(HttpServerExchange exchange) throws IOException, InterruptedException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         exchange.getRequestReceiver().receiveFullBytes((ex, data) -> {
             try {
