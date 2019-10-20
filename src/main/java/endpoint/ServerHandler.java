@@ -99,15 +99,15 @@ public class ServerHandler implements HttpHandler {
         //Speech rec = new Speech(Config.addCconfig());
 
 
-       recognizer.startS(inStream);
+       recognizer.startRecognition(inStream);
       // recognizer.recognizer.resetMonitors();
      //   System.out.println("see 3");
            String text = "!!!!!" + result(recognizer);
      //   System.out.println("see 4");
      //   recognizer.stopRecognition();
      //   System.out.println("see 5");
-        recognizer.recognizer().resetMonitors();
-
+       // recognizer.recognizer().resetMonitors();
+        recognizer.stopRecognition();
         return text;
     }
 }

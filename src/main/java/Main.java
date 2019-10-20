@@ -21,7 +21,7 @@ public class Main {
 
         Speech recognizer = new Speech(
                 configuration);
-        recognizer.start();
+        //recognizer.start();
        // recognizer.recognizer().
         Undertow server = Undertow.builder()
                 .addHttpListener(4274, "0.0.0.0")

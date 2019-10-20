@@ -49,7 +49,7 @@ public class SpeechRecord {
         StringBuilder text = new StringBuilder();
         while ((result = recognizer.getResult()) != null) {
             text.append(result.getHypothesis()).append(" ");
-            //System.out.format("Hypothesis: %s\n", result.getHypothesis());
+            System.out.format("Hypothesis: %s\n", result.getHypothesis());
         }
         //recognizer.stopRecognition();
        /* while ((result = recognizer.getResult()) != null) {
@@ -71,8 +71,8 @@ public class SpeechRecord {
 
         */
        System.out.println(text.toString());
-       Thread.sleep(10000);
-       recognizer.recognizer().resetMonitors();
+      // Thread.sleep(10000);
+       //recognizer.recognizer().resetMonitors();
 
         return text.toString();
     }
