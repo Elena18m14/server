@@ -70,7 +70,9 @@ public class SpeechRecord {
         System.out.println(text);
 
         */
-       System.out.println(text.toString());
+
+        recognizer.recognizer().resetMonitors();
+        System.out.println(text.toString());
         return text.toString();
     }
 }

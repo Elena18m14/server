@@ -49,6 +49,7 @@ import edu.cmu.sphinx.util.TimeFrame;
         public void start() {
             recognizer.allocate();
         }
+
         public void startS(InputStream stream) {
             context.setSpeechSource(stream, TimeFrame.INFINITE);
         }

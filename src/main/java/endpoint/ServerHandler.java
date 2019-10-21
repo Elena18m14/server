@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static java.lang.Thread.sleep;
 import static sphinx.SpeechRecord.result;
 import edu.cmu.sphinx.decoder.Decoder;
 
@@ -35,7 +36,7 @@ public class ServerHandler implements HttpHandler {
 
 
     @Override
-    public void handleRequest(HttpServerExchange exchange) throws IOException {
+    public void handleRequest(HttpServerExchange exchange) throws IOException, InterruptedException {
         logger.info(exchange.getRequestURI() + "?" + exchange.getQueryString());
         boolean checkToken = validateRequest(exchange);
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
@@ -53,7 +54,7 @@ public class ServerHandler implements HttpHandler {
     }
 
 
-    private  String get(HttpServerExchange exchange) throws IOException {
+    private  String get(HttpServerExchange exchange) throws IOException, InterruptedException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         exchange.getRequestReceiver().receiveFullBytes((ex, data) -> {
             try {
@@ -67,7 +68,7 @@ public class ServerHandler implements HttpHandler {
        // recognizer.
 
         ByteArrayInputStream inStream = new ByteArrayInputStream( byteArrayOutputStream.toByteArray() );
-
+        System.out.println("SREAMMMMMMMMMM" + inStream.toString());
 
       //  Speech recognizer1 = new Speech(Config.addCconfig());
 
@@ -97,8 +98,6 @@ public class ServerHandler implements HttpHandler {
         //recognizer.startRecognition(inStream);
 
         //Speech rec = new Speech(Config.addCconfig());
-
-
        recognizer.startS(inStream);
       // recognizer.recognizer.resetMonitors();
      //   System.out.println("see 3");
