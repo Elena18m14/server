@@ -2,10 +2,6 @@ package endpoint;
 
 import Utils.Speech;
 import Utils.Util;
-import edu.cmu.sphinx.api.*;
-import edu.cmu.sphinx.frontend.util.StreamDataSource;
-import edu.cmu.sphinx.recognizer.Recognizer;
-import edu.cmu.sphinx.util.TimeFrame;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
@@ -13,15 +9,12 @@ import io.undertow.util.Headers;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sphinx.Config;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import static java.lang.Thread.sleep;
 import static sphinx.SpeechRecord.result;
-import edu.cmu.sphinx.decoder.Decoder;
 
 
 public class ServerHandler implements HttpHandler {
@@ -33,10 +26,8 @@ public class ServerHandler implements HttpHandler {
         this.recognizer = recognizer;
     }
 
-
-
     @Override
-    public void handleRequest(HttpServerExchange exchange) throws IOException, InterruptedException {
+    public void handleRequest(HttpServerExchange exchange) {
         logger.info(exchange.getRequestURI() + "?" + exchange.getQueryString());
         boolean checkToken = validateRequest(exchange);
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
@@ -47,14 +38,13 @@ public class ServerHandler implements HttpHandler {
         }
     }
 
-    private boolean validateRequest(HttpServerExchange exchange) throws IOException {
+    private boolean validateRequest(HttpServerExchange exchange) {
         String token = StringUtils.trimToEmpty(Util.getQueryParametrs(exchange, "token"));
         logger.info("token is " + token);
         return token.equals("speach");
     }
 
-
-    private  String get(HttpServerExchange exchange) throws IOException, InterruptedException {
+    private  String get(HttpServerExchange exchange) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         exchange.getRequestReceiver().receiveFullBytes((ex, data) -> {
             try {
@@ -64,48 +54,10 @@ public class ServerHandler implements HttpHandler {
             }
         });
 
-
-       // recognizer.
-
-        ByteArrayInputStream inStream = new ByteArrayInputStream( byteArrayOutputStream.toByteArray() );
-        System.out.println("SREAMMMMMMMMMM" + inStream.toString());
-
-      //  Speech recognizer1 = new Speech(Config.addCconfig());
-
-      //  recognizer1 = recognizer;
-
-       // ServerHandler s =  new ServerHandler(recognizer1);
-     //   s.recognizer.startS(inStream);
-
-       // String text = "!!!!!" + result(recognizer);
-        //String text1 = "SPEECH";
-        //Context context = new Context(Config.addCconfig());
-        //Recognizer realrecognizer = context.getInstance(Recognizer.class);
-       // realrecognizer.allocate();
-       // System.out.println("see 1");
-       // ByteArrayInputStream inStream = new ByteArrayInputStream( byteArrayOutputStream.toByteArray() );
-
-       /// context.setSpeechSource(inStream, TimeFrame.INFINITE);
-       // realrecognizer.recognize();
-
-
-      // .out.format("Hypothesis: %s\n", result.getHypothesis());
-     //   }
-
-       // AbstractSpeechRecognizer recognizer1 = new AbstractSpeechRecognizer(Config.addCconfig());
-
-      //  System.out.println("see 2");
-        //recognizer.startRecognition(inStream);
-
-        //Speech rec = new Speech(Config.addCconfig());
+       ByteArrayInputStream inStream = new ByteArrayInputStream( byteArrayOutputStream.toByteArray() );
+       System.out.println("SREAMMMMMMMMMM" + inStream.toString());
        recognizer.startS(inStream);
-      // recognizer.recognizer.resetMonitors();
-     //   System.out.println("see 3");
-           String text = "!!!!!" + result(recognizer);
-     //   System.out.println("see 4");
-     //   recognizer.stopRecognition();
-     //   System.out.println("see 5");
-        recognizer.recognizer().resetMonitors();
+       String text = "!!!!!" + result(recognizer);
 
         return text;
     }

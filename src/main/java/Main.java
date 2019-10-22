@@ -1,6 +1,5 @@
 import Utils.Speech;
 import edu.cmu.sphinx.api.Configuration;
-import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import endpoint.ServerHandler;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
@@ -8,7 +7,6 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sphinx.Config;
-import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 
 import java.io.IOException;
 
@@ -22,7 +20,6 @@ public class Main {
         Speech recognizer = new Speech(
                 configuration);
         recognizer.start();
-       // recognizer.recognizer().
         Undertow server = Undertow.builder()
                 .addHttpListener(4274, "0.0.0.0")
                 .setHandler(
@@ -32,5 +29,14 @@ public class Main {
                 .build();
         logger.info("Server start port 4274");
         server.start();
+    }
+
+    public static void main1(String[] args) throws Exception {
+       //  File source = new File("1.ogg");
+       // File wavTarget = new File("2.wav");
+       // FFmpegBuilder builder = new FFmpegBuilder().addInput("1.ogg");
+
+
+        System.out.println("!@");
     }
 }
