@@ -12,7 +12,7 @@ public class Config {
                 .setDictionaryPath("resource:/zero_ru_cont_8k_v3/ru.dic");
         configuration
                 .setLanguageModelPath("resource:/zero_ru_cont_8k_v3/ru.lm");
-        configuration.setSampleRate(8000);
+        //configuration.setSampleRate(8000);
         return configuration;
     }
 }
