@@ -3,6 +3,9 @@ import edu.cmu.sphinx.api.Configuration;
 import endpoint.ServerHandler;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
+import io.undertow.server.HttpHandler;
+import io.undertow.server.handlers.AllowedMethodsHandler;
+import io.undertow.util.Methods;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
@@ -26,12 +29,21 @@ public class Main {
         Speech recognizer = new Speech(
                 configuration);
         recognizer.start();
+        final
         Undertow server = Undertow.builder()
                 .addHttpListener(4274, "0.0.0.0")
                 .setHandler(
                         Handlers.path()
-                                .addExactPath("/endpoint", new ServerHandler(recognizer))
+                                .addExactPath("/endpoint",
+                                        new ServerHandler(recognizer))
                 )
+                .setHandler(
+                        Handlers.path()
+                                .addExactPath("/read",
+                                        Handlers.routing()
+                                                .get("/",  new Read()))
+                )
+
                 .build();
         logger.info("Server start port 4274");
         server.start();
