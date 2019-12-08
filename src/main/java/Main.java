@@ -1,15 +1,7 @@
 import Utils.Speech;
 import edu.cmu.sphinx.api.Configuration;
-import endpoint.ServerHandler;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
-import io.undertow.server.HttpHandler;
-import io.undertow.server.handlers.AllowedMethodsHandler;
-import io.undertow.util.Methods;
-import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFmpegExecutor;
-import net.bramp.ffmpeg.FFprobe;
-import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,24 +16,23 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BasicConfigurator.configure(); // needed for logger to work
-        Configuration configuration = Config.addCconfig();
+        Configuration configuration ;//= Config.addCconfig();
 
-        Speech recognizer = new Speech(
-                configuration);
-        recognizer.start();
+        Speech recognizer = null;// new Speech(
+                //configuration);
+        //recognizer.start();
         final
         Undertow server = Undertow.builder()
                 .addHttpListener(4274, "0.0.0.0")
-                .setHandler(
-                        Handlers.path()
-                                .addExactPath("/endpoint",
-                                        new ServerHandler(recognizer))
-                )
+
                 .setHandler(
                         Handlers.path()
                                 .addExactPath("/read",
                                         Handlers.routing()
                                                 .get("/",  new Read()))
+                                .addExactPath("/audio",
+                                        Handlers.routing()
+                                                .get("/",  new Audio(recognizer)))
                 )
 
                 .build();
@@ -56,16 +47,6 @@ public class Main {
         Process p = Runtime.getRuntime().exec(peticaion);
         BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
         String line = "";
-
-
-
-
-
-
-
-
-
-
 
 
         while ((line = br.readLine()) != null) {

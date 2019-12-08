@@ -1,39 +1,34 @@
-package endpoint;
-
 import Utils.Speech;
 import Utils.Util;
-import edu.cmu.sphinx.api.SpeechResult;
-import edu.cmu.sphinx.decoder.adaptation.Stats;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sphinx.Audio;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import static sphinx.SpeechRecord.result;
 
 
-public class ServerHandler implements HttpHandler {
+public class Audio implements HttpHandler {
+
     public static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
 
     private Speech recognizer;
 
-    public ServerHandler(Speech recognizer) {
+    public Audio(Speech recognizer) {
         this.recognizer = recognizer;
     }
 
     @Override
     public void handleRequest(HttpServerExchange exchange) throws Exception {
+        System.out.println("DF");
         logger.info(exchange.getRequestURI() + "?" + exchange.getQueryString());
         boolean checkToken = validateRequest(exchange);
         String filedName = StringUtils.trimToEmpty(Util.getQueryParametrs(exchange, "filedName"));
@@ -57,14 +52,13 @@ public class ServerHandler implements HttpHandler {
     }
 
     private String get(String fieldname) throws Exception {
-        InputStream stream = Audio.inputStreemFromPat(fieldname);
+        InputStream stream = sphinx.Audio.inputStreemFromPat(fieldname);
         recognizer.startS(stream);
         String text = result(recognizer);
         recognizer.recognizer().resetMonitors();
         System.out.println("Print filedName");
         return new String(text.getBytes(), StandardCharsets.UTF_8);
     }
-
     private  String get(HttpServerExchange exchange) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         exchange.getRequestReceiver().receiveFullBytes((ex, data) -> {
@@ -75,12 +69,12 @@ public class ServerHandler implements HttpHandler {
             }
         });
 
-       ByteArrayInputStream inStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-       recognizer.startS(inStream);
-       String text = result(recognizer);
-       recognizer.recognizer().resetMonitors();
-       inStream.close();
-       return new String(text.getBytes(), StandardCharsets.UTF_8);
+        ByteArrayInputStream inStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        recognizer.startS(inStream);
+        String text = result(recognizer);
+        recognizer.recognizer().resetMonitors();
+        inStream.close();
+        return new String(text.getBytes(), StandardCharsets.UTF_8);
 
     }
 }
